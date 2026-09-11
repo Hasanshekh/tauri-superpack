@@ -1,0 +1,8 @@
+[default]
+description = "Default permissions for tauri-plugin-uniform"
+permissions = [
+    "allow-pick-color",
+    "allow-capture-screen",
+    "allow-show-open-file-picker",
+    "allow-show-save-file-picker",
+]

@@ -1,0 +1,19 @@
+[package]
+name = "tauri-plugin-browser-view"
+links = "tauri-plugin-browser-view"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "High-Level Multi-Webview Tab Orchestration & Session Isolation for Tauri v2"
+
+[dependencies]
+tauri = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+url = "2"
+
+[build-dependencies]
+tauri-plugin = { workspace = true, features = ["build"] }

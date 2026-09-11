@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri Superpack Showcase (6 Packages)</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --border: #334155;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 24px;
+        min-height: 100vh;
+      }
+      header {
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+      }
+      h1 { font-size: 20px; font-weight: 700; color: var(--text); }
+      p.subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .card h2 { font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+      button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+      button:hover { background: var(--accent-hover); }
+      button.secondary { background: #334155; }
+      button.secondary:hover { background: #475569; }
+      .output {
+        margin-top: 12px;
+        background: #090d16;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 12px;
+        color: #38bdf8;
+        min-height: 48px;
+        max-height: 140px;
+        overflow-y: auto;
+        word-break: break-all;
+      }
+      .swatch {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        vertical-align: middle;
+        margin-right: 6px;
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+      input[type="text"] {
+        background: #090d16;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 10px;
+        border-radius: 6px;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 13px;
+      }
+      .tab-bar {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .tab-tag {
+        background: #2563eb;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tab-tag .close {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+      .tab-tag .close:hover { opacity: 1; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Tauri Superpack Suite Verification (All 6 Packages)</h1>
+      <p class="subtitle">Complete suite: uniform, browser-view, zerocopy, cdp, isolate, and node-compat</p>
+    </header>
+
+    <div class="grid">
+      <!-- Card 1: Uniform Plugin -->
+      <div class="card">
+        <h2>1. tauri-plugin-uniform (Consistency & Polyfills)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          EyeDropper polyfill, cross-platform screenshots, and native file dialogs.
+        </p>
+        <div>
+          <button id="btn-eyedropper">Sample Screen Pixel</button>
+          <button id="btn-capture" class="secondary">Capture Screen Area</button>
+          <button id="btn-dialog" class="secondary">Native File Dialog</button>
+        </div>
+        <div id="uniform-output" class="output">Ready.</div>
+      </div>
+
+      <!-- Card 2: Browser View Plugin -->
+      <div class="card">
+        <h2>2. tauri-plugin-browser-view (Tabs & Isolation)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          Multi-webview tabs with isolated cookie partitions.
+        </p>
+        <input type="text" id="tab-url" value="https://example.com" placeholder="URL to load..." />
+        <div>
+          <button id="btn-create-tab">Create Default Tab</button>
+          <button id="btn-isolated-tab" class="secondary">Create Isolated Tab</button>
+        </div>
+        <div class="tab-bar" id="tabs-container"></div>
+        <div id="browser-output" class="output">No tabs active.</div>
+      </div>
+
+      <!-- Card 3: ZeroCopy Plugin -->
+      <div class="card">
+        <h2>3. tauri-plugin-zerocopy (Streaming Binary IPC)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          Direct in-memory loopback HTTP transfer without IPC serialization overhead.
+        </p>
+        <div>
+          <button id="btn-stream-10mb">Stream 10 MB Binary Buffer</button>
+          <button id="btn-stream-info" class="secondary">Get Server Info</button>
+        </div>
+        <div id="zerocopy-output" class="output">Ready to stream.</div>
+      </div>
+
+      <!-- Card 4: CDP Plugin -->
+      <div class="card">
+        <h2>4. tauri-plugin-cdp (Universal Chrome DevTools)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          Universal Chrome DevTools bridge with remote inspection window.
+        </p>
+        <div>
+          <button id="btn-open-devtools">Open Standalone DevTools</button>
+          <button id="btn-emit-log" class="secondary">Emit Sample Console Log</button>
+        </div>
+        <div id="cdp-output" class="output">Ready to inspect.</div>
+      </div>
+
+      <!-- Card 5: Isolate Plugin -->
+      <div class="card">
+        <h2>5. tauri-plugin-isolate (Sandboxed JS Runtime)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          Pure Rust sandboxed JavaScript engine (boa_engine) for untrusted community plugins.
+        </p>
+        <div>
+          <button id="btn-eval-math">Eval Safe Math ('5 * 10 + 2')</button>
+          <button id="btn-eval-plugin" class="secondary">Install Mock Plugin</button>
+        </div>
+        <div id="isolate-output" class="output">Ready to execute untrusted JS.</div>
+      </div>
+
+      <!-- Card 6: Node.js Compatibility -->
+      <div class="card">
+        <h2>6. tauri-node-compat (Drop-in Node.js Shims)</h2>
+        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">
+          1:1 drop-in shims for fs, path, child_process, and os.
+        </p>
+        <div>
+          <button id="btn-test-path">Test path.join() & basename()</button>
+          <button id="btn-test-fs" class="secondary">Test fs.promises.writeFile()</button>
+        </div>
+        <div id="node-compat-output" class="output">Ready to test Node.js shims.</div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

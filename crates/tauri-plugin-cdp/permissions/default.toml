@@ -1,0 +1,7 @@
+[default]
+description = "Default permissions for tauri-plugin-cdp"
+permissions = [
+    "allow-get-cdp-server-info",
+    "allow-open-devtools-window",
+    "allow-get-devtools-url",
+]

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "tauri-showcase",
+  "version": "0.1.0",
+  "identifier": "com.devlens.tauri-showcase",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Tauri Superpack Showcase",
+        "label": "main",
+        "width": 1000,
+        "height": 850
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

@@ -1,0 +1,21 @@
+[package]
+name = "tauri-plugin-uniform"
+links = "tauri-plugin-uniform"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Universal Webview Consistency & OS Polyfills for Tauri v2"
+
+[dependencies]
+tauri = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+xcap = "0.9"
+rfd = "0.17"
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+[build-dependencies]
+tauri-plugin = { workspace = true, features = ["build"] }

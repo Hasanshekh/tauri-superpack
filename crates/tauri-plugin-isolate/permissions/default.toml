@@ -1,0 +1,8 @@
+[default]
+description = "Default permissions for tauri-plugin-isolate"
+permissions = [
+    "allow-eval-script",
+    "allow-register-plugin",
+    "allow-list-plugins",
+    "allow-unload-plugin",
+]

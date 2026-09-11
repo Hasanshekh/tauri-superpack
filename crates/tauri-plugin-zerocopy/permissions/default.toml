@@ -1,0 +1,7 @@
+[default]
+description = "Default permissions for tauri-plugin-zerocopy"
+permissions = [
+    "allow-get-server-info",
+    "allow-register-buffer",
+    "allow-release-buffer",
+]

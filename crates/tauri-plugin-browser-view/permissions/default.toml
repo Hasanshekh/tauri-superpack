@@ -1,0 +1,11 @@
+[default]
+description = "Default permissions for tauri-plugin-browser-view"
+permissions = [
+    "allow-create-tab",
+    "allow-close-tab",
+    "allow-set-tab-bounds",
+    "allow-switch-tab",
+    "allow-navigate-tab",
+    "allow-eval-script-in-tab",
+    "allow-list-tabs",
+]

@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default capabilities for the showcase application",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "uniform:default",
+    "browser-view:default",
+    "zerocopy:default",
+    "cdp:default",
+    "isolate:default"
+  ]
+}

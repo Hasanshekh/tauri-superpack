@@ -1,0 +1,23 @@
+[package]
+name = "tauri-plugin-zerocopy"
+links = "tauri-plugin-zerocopy"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "High-speed streaming binary IPC and memory bridge for Tauri v2"
+
+[dependencies]
+tauri = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+tokio = { workspace = true }
+axum = "0.8"
+tower-http = { version = "0.7", features = ["cors"] }
+bytes = "1"
+uuid = { version = "1", features = ["v4"] }
+
+[build-dependencies]
+tauri-plugin = { workspace = true, features = ["build"] }

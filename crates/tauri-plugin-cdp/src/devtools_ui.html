@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevTools - {{TARGET_LABEL}}</title>
+  <style>
+    :root {
+      --bg: #202124;
+      --header-bg: #292a2d;
+      --border: #3c4043;
+      --text: #e8eaed;
+      --muted: #9aa0a6;
+      --accent: #8ab4f8;
+      --error: #f28b82;
+      --warn: #fdd663;
+      --info: #81c995;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      height: 36px;
+      user-select: none;
+    }
+    .tabs {
+      display: flex;
+      height: 100%;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 12px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .target-badge {
+      margin-left: auto;
+      font-size: 11px;
+      background: #3c4043;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--muted);
+    }
+    .panel {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel.active { display: flex; }
+    .log-list {
+      flex: 1;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      padding: 8px;
+    }
+    .log-entry {
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      gap: 8px;
+    }
+    .log-entry.error { color: var(--error); background: rgba(242, 139, 130, 0.08); }
+    .log-entry.warn { color: var(--warn); background: rgba(253, 214, 99, 0.08); }
+    .log-entry.info { color: var(--info); }
+    .time { color: var(--muted); font-size: 11px; min-width: 65px; }
+    .console-input-bar {
+      border-top: 1px solid var(--border);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      background: var(--header-bg);
+    }
+    .console-prompt { color: var(--accent); margin-right: 6px; font-weight: bold; }
+    .console-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: monospace;
+      font-size: 12px;
+      outline: none;
+    }
+    .empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tabs">
+      <div class="tab active" data-tab="console">Console</div>
+      <div class="tab" data-tab="elements">Elements</div>
+      <div class="tab" data-tab="network">Network</div>
+      <div class="tab" data-tab="storage">Storage</div>
+    </div>
+    <span class="target-badge">Target: {{TARGET_LABEL}}</span>
+  </header>
+
+  <!-- Console Panel -->
+  <div class="panel active" id="panel-console">
+    <div class="log-list" id="log-list">
+      <div class="log-entry info">
+        <span class="time">[00:00:00]</span>
+        <span>Connected to universal DevTools probe for '{{TARGET_LABEL}}'.</span>
+      </div>
+    </div>
+    <div class="console-input-bar">
+      <span class="console-prompt">&gt;</span>
+      <input type="text" class="console-input" id="console-eval" placeholder="Evaluate JavaScript in target..." />
+    </div>
+  </div>
+
+  <!-- Elements Panel -->
+  <div class="panel" id="panel-elements">
+    <div class="empty-state">DOM Elements tree ready for inspection.</div>
+  </div>
+
+  <!-- Network Panel -->
+  <div class="panel" id="panel-network">
+    <div class="empty-state">Recording network requests...</div>
+  </div>
+
+  <!-- Storage Panel -->
+  <div class="panel" id="panel-storage">
+    <div class="empty-state">Cookies and LocalStorage inspector.</div>
+  </div>
+
+  <script>
+    const target = '{{TARGET_LABEL}}';
+    const logList = document.getElementById('log-list');
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Poll logs
+    async function fetchLogs() {
+      try {
+        const res = await fetch(`/api/logs/${encodeURIComponent(target)}`);
+        if (res.ok) {
+          const logs = await res.json();
+          if (logs.length > 0) {
+            logs.forEach(log => {
+              const d = new Date(log.timestamp);
+              const timeStr = d.toTimeString().split(' ')[0];
+              const entry = document.createElement('div');
+              entry.className = `log-entry ${log.level}`;
+              entry.innerHTML = `<span class="time">[${timeStr}]</span><span>${escapeHtml(log.message)}</span>`;
+              logList.appendChild(entry);
+            });
+            logList.scrollTop = logList.scrollHeight;
+          }
+        }
+      } catch (err) {}
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    setInterval(fetchLogs, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[workspace]
+members = [
+    "crates/tauri-plugin-uniform",
+    "crates/tauri-plugin-browser-view",
+    "crates/tauri-plugin-zerocopy",
+    "crates/tauri-plugin-cdp",
+    "crates/tauri-plugin-isolate",
+    "examples/tauri-showcase/src-tauri",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["DevLens Team"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/devlens/tauri-superpack"
+
+[workspace.dependencies]
+tauri = "2.11"
+tauri-plugin = "2.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+log = "0.4"
+tokio = { version = "1", features = ["full"] }

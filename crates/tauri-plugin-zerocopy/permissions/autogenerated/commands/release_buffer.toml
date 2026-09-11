@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-release-buffer"
+description = "Enables the release_buffer command without any pre-configured scope."
+commands.allow = ["release_buffer"]
+
+[[permission]]
+identifier = "deny-release-buffer"
+description = "Denies the release_buffer command without any pre-configured scope."
+commands.deny = ["release_buffer"]

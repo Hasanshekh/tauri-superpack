@@ -1,0 +1,17 @@
+[package]
+name = "tauri-showcase"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tauri = { version = "2.11", features = [] }
+tauri-plugin-uniform = { path = "../../../crates/tauri-plugin-uniform" }
+tauri-plugin-browser-view = { path = "../../../crates/tauri-plugin-browser-view" }
+tauri-plugin-zerocopy = { path = "../../../crates/tauri-plugin-zerocopy" }
+tauri-plugin-cdp = { path = "../../../crates/tauri-plugin-cdp" }
+tauri-plugin-isolate = { path = "../../../crates/tauri-plugin-isolate" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[build-dependencies]
+tauri-build = { version = "2.6", features = [] }
