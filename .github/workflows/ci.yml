@@ -51,7 +51,9 @@ jobs:
             libclang-dev \
             libx11-dev \
             libxrandr-dev \
-            libxfixes-dev
+            libxfixes-dev \
+            libgbm-dev \
+            libdrm-dev
 
       - name: Check workspace
         run: cargo check --workspace --all-targets
